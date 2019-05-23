@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="gauss.js"></script>
+
+        <style>
+        #rectangle{
+            height:450px;
+            width:800px;
+            background-color: #CFCECE;
+        }
+
+        div{
+            padding-top: 3px;
+        }
+
+        </style>
+
+
+    </head>
+
+    <body>
+        <div id='rectangle'>
+            <H1>Western Easter Calculator</H1>
+            <H3></H3>
+            <H4>This is a webapp based on Gauss' Easter algorithm. It allows you to calculate the date of Easter in our Gregorian calendar, and in the Julian Calendar. To find my webapp based on Dionysius' Easter Table, please click <a href = "http://www.taidghmurray.ie/dionysius.html">here.</a></H4>
+            Enter year:<input id="year" onkeypress="allowNumbersOnly(event)"/>
+            <button type = 'button' onclick="tMurrayEaster()" div = "Calculate">Calculate Easter</button>
+            <button type = 'button' onclick="tMurrayEasterJulian()" div = "Calculate">Calculate Julian Easter</button>
+            <div id='modernEasterCalculation'></div>
+            <div id='julianEaster'></div>
+        </div>
+    </body>
+
+
+</html>
