@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <script src="dionysius.js">
+    </script>
+</head>
+
+<body>
+    <H1>Latercus Easter Table</H1>
+    Enter year:<input id="year" onkeypress="allowNumbersOnly(event)"/>
+    <button type = 'button' onclick="easterDate(simplified = true)" div = "Calculate">Calculate Date</button>
+    <button type = 'button' onclick="easterDate(simplified = false)" div = "Calculate">Full calcs</button>
+    <div id='date'></div>
+    <div id='dion'></div>
+    <button type = 'button' onclick="generate_easter_table()" div = "G">Table</button>
+    <table id='table' width="100%">
+        <tr>
+            <th>Year</th>
+            <th>Index</th>
+            <th>Indiction</th>
+            <th>Epact</th>
+            <th>Concurrent</th>
+            <th>Lunar Cycle</th>
+            <th>Lunar 14</th>
+            <th>Easter Full Moon Month</th>
+            <th>Pascal Moon</th>
+            <th>Lunar Age</th>
+        </tr>
+    </table>
+</body>

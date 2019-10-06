@@ -1,5 +1,17 @@
 // Define a boolean variable to change whether user wants simplifed or detailed calculations
 var simplified = true;
+var just_values = false;
+var dionysius_year;
+
+// Weekday accessed in multiple places
+var weekday = new Array(7);
+weekday[0] = "Sunday";
+weekday[1] = "Monday";
+weekday[2] = "Tuesday";
+weekday[3] = "Wednesday";
+weekday[4] = "Thursday";
+weekday[5] = "Friday";
+weekday[6] = "Saturday";
 
 //(AD(mod 19)*11)mod 30
 //This function stops non integer values being input
@@ -27,19 +39,18 @@ function ordinal_suffix_of(i) {
 }
 
 //This function calculates the indiction
-function easterDate(simplified){
+function easterDate(simplified, just_values, dionysius_year=0){
     //parseInt is required, otherwise the value is read as a string
     var y = parseInt(document.getElementById("year").value);
-    if(!(isNaN(y))){
-        //Creating an array for the days of the week
-        var weekday = new Array(7);
-        weekday[0] = "Sunday";
-        weekday[1] = "Monday";
-        weekday[2] = "Tuesday";
-        weekday[3] = "Wednesday";
-        weekday[4] = "Thursday";
-        weekday[5] = "Friday";
-        weekday[6] = "Saturday";
+    if(!(isNaN(y)) || dionysius_year != 0){
+
+        if(dionysius_year != 0){
+            y = dionysius_year;
+        }
+        
+
+        // This is the index of the year in the dionysian table
+        var dionysius_index = (y%19)+1;
 
         //Indiction calculation
         var indiction = (y+3)%15;
@@ -144,27 +155,85 @@ function easterDate(simplified){
              newD = "If we were to consider the modern Gregorian calendar, then the Orthodox Easter falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '. </b><br/>';
         }
 
+        // Return just the values
+        // I'm lazy and don't want to rewrite the whole code
+        if(just_values){
+            // return index of all values
+            return [dionysius_index, indiction, epact, concurrent, luncyc, l14, easterFullMoonMonth, pascMoon, lunAge];
+        }
+
 
         if(simplified){
             document.getElementById('date').innerHTML = old + newD;
         }
         else{
+            var dion_ind = y + " is the " + ordinal_suffix_of(dionysius_index) + " year in the Dionysian Table. <br/>";
 
-          var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction. <br/>";
+            var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction. <br/>";
 
-          var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '. <br/>';
+            var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '. <br/>';
 
-          var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ". <br/>";
+            var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ". <br/>";
 
-          var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle. <br/>";
+            var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle. <br/>";
 
-          var eFullMoon = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + '). <br/>';
+            var eFullMoon = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + '). <br/>';
 
-          var lun = "The Lunar Age is " + lunAge + '. <br/>';
+            var lun = "The Lunar Age is " + lunAge + '. <br/>';
 
-          document.getElementById('date').innerHTML = ind + ep+ con + lc + eFullMoon + old + newD + lun;
+            document.getElementById('date').innerHTML = dion_ind + ind + ep+ con + lc + eFullMoon + old + newD + lun;
         }
     }else{
         document.getElementById('date').innerHTML = "Please enter a year.";
+    }
+}
+
+
+function generate_easter_table(){
+    let year_loop;
+    //let dion_table = "<table><tr><th>Year</th><th>Index</th><th>Indiction</th><th>Epact</th><th>Year</th><th>Year</th><th>Year</th><th>Year</th><th>Year</th><th>Year</th></tr></table>";
+    let table = document.getElementById('table');
+    //document.getElementById('dion').innerHTML = dion_table;
+    for (year_loop = 532; year_loop<626; year_loop++){
+        // Get values
+        let table_filler = easterDate(simplified=true, just_values=true, dionysius_year=year_loop);
+
+        // Define each value
+        let dionysius_index = table_filler[0];
+        let indiction = table_filler[1];
+        let epact = table_filler[2];
+        let concurrent = table_filler[3];
+        let luncyc = table_filler[4];
+        let l14 = table_filler[5];
+        let easterFullMoonMonth = table_filler[6];
+        let pascMoon = table_filler[7];
+        let lunAge = table_filler[8];
+
+        // Create a row and cell for each value
+        let row = table.insertRow();        
+        let year_cell = row.insertCell();
+        let dionysius_index_cell = row.insertCell();            
+        let indiction_cell = row.insertCell();
+        let epact_cell = row.insertCell();
+        let concurrent_cell = row.insertCell();
+        let luncyc_cell = row.insertCell();
+        let l14_cell = row.insertCell();
+        let easterFullMoonMonth_cell = row.insertCell();
+        let pascMoon_cell = row.insertCell();
+        let lunAge_cell = row.insertCell();
+
+        // Fill cells with values
+        year_cell.innerHTML = year_loop;
+        dionysius_index_cell.innerHTML = dionysius_index;
+        indiction_cell.innerHTML = indiction;
+        epact_cell.innerHTML = epact;
+        concurrent_cell.innerHTML = concurrent;
+        luncyc_cell.innerHTML = luncyc;
+        l14_cell.innerHTML = l14;
+        easterFullMoonMonth_cell.innerHTML = easterFullMoonMonth;
+        pascMoon_cell.innerHTML = pascMoon;
+        lunAge_cell.innerHTML = lunAge;
+        
+        
     }
 }
