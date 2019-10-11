@@ -168,20 +168,27 @@ function easterDate(simplified, just_values, dionysius_year=0){
         }
         else{
             var dion_ind = y + " is the " + ordinal_suffix_of(dionysius_index) + " year in the Dionysian Table. <br/>";
+            document.getElementById('dion_ind').innerHTML = dion_ind;
 
             var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction. <br/>";
+            document.getElementById('ind').innerHTML = ind;
 
             var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '. <br/>';
+            document.getElementById('ep').innerHTML = ep;
 
             var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ". <br/>";
+            document.getElementById('con').innerHTML = con;
 
             var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle. <br/>";
+            document.getElementById('lc').innerHTML = lc;
 
             var eFullMoon = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + '). <br/>';
+            document.getElementById('eFullMoon').innerHTML = newD;
 
             var lun = "The Lunar Age is " + lunAge + '. <br/>';
+            document.getElementById('lun').innerHTML = lun;
 
-            document.getElementById('date').innerHTML = dion_ind + ind + ep+ con + lc + eFullMoon + old + newD + lun;
+            document.getElementById('date').innerHTML = old + newD;
         }
     }else{
         document.getElementById('date').innerHTML = "Please enter a year.";
@@ -210,7 +217,8 @@ function generate_easter_table(){
         let lunAge = table_filler[8];
 
         // Create a row and cell for each value
-        let row = table.insertRow();        
+        let row = table.insertRow();  
+        row.id = year_loop;      
         let year_cell = row.insertCell();
         let dionysius_index_cell = row.insertCell();            
         let indiction_cell = row.insertCell();
